@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:samachar_app/widgets/newCategory_item.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'dart:developer';
+
+import 'package:samachar_app/widgets/newsCart_item.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -22,7 +25,13 @@ class _HomeScreenState extends State<HomeScreen> {
     "Politics"
   ];
 
-  List<Color> newsItem = [ Colors.blue, Colors.yellow , Colors.green , Colors.purple , Colors.red];
+  List<Color> newsItem = [
+    Colors.blue,
+    Colors.yellow,
+    Colors.green,
+    Colors.purple,
+    Colors.red
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,54 +71,38 @@ class _HomeScreenState extends State<HomeScreen> {
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return InkWell(
-                        onTap: (() {
-                          log(navItem[index]);
-                        }),
-                        child: NewsItem(item: navItem[index]));
+                          onTap: (() {
+                            log(navItem[index]);
+                          }),
+                          child: NewsItem(item: navItem[index]));
                     }),
               ),
-              CarouselSlider(items: newsItem.map((index){
-                return Builder(builder: (BuildContext context) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 5,vertical: 8),
-                    decoration: BoxDecoration(
-                      color: index,
-                    ),
-      
-                  );
-            
-                });
-              }).toList(), options: CarouselOptions(
-                height: 200,
-                autoPlay: true,
-                enlargeCenterPage: true,
-                enableInfiniteScroll: false,
-              ),),
-              Container(
-                 
-                
-                child: ListView.builder(
+              CarouselSlider(
+                items: newsItem.map((index) {
+                  return Builder(builder: (BuildContext context) {
+                    return Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: index,
+                      ),
+                    );
+                  });
+                }).toList(),
+                options: CarouselOptions(
+                  height: 200,
+                  autoPlay: true,
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: false,
+                ),
+              ),
+              ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: 10,
-                  itemBuilder: (context ,index ){
-                    return Container(
-                     
-                      child: Card(
-                        margin: const EdgeInsets.symmetric(vertical: 8),
-                        elevation: 1,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Stack(children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image.asset("assets/images/newsPlaceHolder.jpg"))
-                        ]),
-                      ),
-                    );
-                  }),
-              )
+                  itemBuilder: (context, index) {
+                    return const NewsCartItem();
+                  })
             ],
           ),
         ),
